@@ -24,3 +24,9 @@ dist-ssr
 *.sln
 *.sw?
 
+server/.env
+
+# Environment variables
+.env
+.env.*
+!.env.example
