@@ -59,13 +59,66 @@ describe('Task Manager', () => {
 
   })
 
-  //failed test by will
-  it('should display the application title', () => {
-  cy.visit('/')
-
-  cy.contains('h1', 'This title does not exist')
-    .should('be.visible')
   
-  })
+it('should display all tasks by default', () => {
+  cy.get('[data-cy="task-input"]').type('Task one')
+  cy.get('[data-cy="add-task"]').click()
+
+  cy.get('[data-cy="task-input"]').type('Task two')
+  cy.get('[data-cy="add-task"]').click()
+
+  cy.get('[data-cy="task-item"]')
+    .should('have.length', 2)
+})
+
+it('should display only active tasks', () => {
+  cy.get('[data-cy="task-input"]').type('Completed task')
+  cy.get('[data-cy="add-task"]').click()
+
+  cy.get('[data-cy="task-input"]').type('Active task')
+  cy.get('[data-cy="add-task"]').click()
+
+  // Complete the first task
+  cy.contains('[data-cy="task-title"]', 'Completed task')
+    .click()
+
+  // Apply the Active filter
+  cy.get('[data-cy="filter-active"]').click()
+
+  cy.get('[data-cy="task-item"]')
+    .should('have.length', 1)
+
+  cy.contains('[data-cy="task-title"]', 'Active task')
+    .should('be.visible')
+
+  cy.contains('[data-cy="task-title"]', 'Completed task')
+    .should('not.exist')
+})
+
+it('should display only completed tasks', () => {
+  cy.get('[data-cy="task-input"]').type('Completed task')
+  cy.get('[data-cy="add-task"]').click()
+
+  cy.get('[data-cy="task-input"]').type('Active task')
+  cy.get('[data-cy="add-task"]').click()
+
+  // Complete the first task
+  cy.contains('[data-cy="task-title"]', 'Completed task')
+    .click()
+
+  // Apply the Completed filter
+  cy.get('[data-cy="filter-completed"]').click()
+
+  cy.get('[data-cy="task-item"]')
+    .should('have.length', 1)
+
+  cy.contains('[data-cy="task-title"]', 'Completed task')
+    .should('be.visible')
+
+  cy.contains('[data-cy="task-title"]', 'Active task')
+    .should('not.exist')
+})
+
+
 
 })
