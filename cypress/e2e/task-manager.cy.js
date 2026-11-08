@@ -59,4 +59,13 @@ describe('Task Manager', () => {
 
   })
 
+  //failed test by will
+  it('should display the application title', () => {
+  cy.visit('/')
+
+  cy.contains('h1', 'This title does not exist')
+    .should('be.visible')
+  
+  })
+
 })
