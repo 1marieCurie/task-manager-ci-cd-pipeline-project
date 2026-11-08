@@ -1,0 +1,39 @@
+.container {
+  max-width: 650px;
+  margin: 80px auto;
+  padding: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.task-form {
+  display: flex;
+  gap: 10px;
+  margin: 25px 0;
+}
+
+.task-form input {
+  flex: 1;
+  padding: 12px;
+}
+
+button {
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+li span {
+  cursor: pointer;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
