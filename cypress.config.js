@@ -13,4 +13,9 @@ export default defineConfig({
       // implement node event listeners here
     },
   },
+
+  expose: {
+    apiUrl: "http://localhost:5000"
+  }
+
 });
