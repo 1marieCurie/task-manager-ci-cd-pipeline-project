@@ -4,6 +4,7 @@ import './App.css'
 function App() {
   const [tasks, setTasks] = useState([])
   const [newTask, setNewTask] = useState('')
+  const [filter, setFilter] = useState('all')
 
   const addTask = () => {
     if (!newTask.trim()) return
@@ -29,6 +30,18 @@ function App() {
       )
     )
   }
+  
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === 'active') {
+      return !task.completed
+    }
+
+    if (filter === 'completed') {
+      return task.completed
+    }
+
+    return true
+  })
 
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id))
@@ -40,6 +53,30 @@ function App() {
       <p>Manage your daily tasks.</p>
 
       <div className="task-form">
+        
+        <div className="filters" data-cy="task-filters">
+          <button
+            data-cy="filter-all"
+            onClick={() => setFilter('all')}
+          >
+            All
+          </button>
+
+          <button
+            data-cy="filter-active"
+            onClick={() => setFilter('active')}
+          >
+            Active
+          </button>
+
+          <button
+            data-cy="filter-completed"
+            onClick={() => setFilter('completed')}
+          >
+            Completed
+          </button>
+       </div>
+
         <input
           data-cy="task-input"
           type="text"
@@ -74,6 +111,12 @@ function App() {
         ))}
       </ul>
 
+      {tasks.length > 0 && filteredTasks.length === 0 && (
+        <p data-cy="no-filtered-tasks">
+          No tasks match this filter.
+        </p>
+      )}
+      
       {tasks.length === 0 && (
         <p data-cy="empty-message">No tasks yet.</p>
       )}

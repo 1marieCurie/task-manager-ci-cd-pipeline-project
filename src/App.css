@@ -37,3 +37,19 @@ li span {
   text-decoration: line-through;
   color: gray;
 }
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters button {
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.filters button:hover {
+  background: #ddd;
+}
