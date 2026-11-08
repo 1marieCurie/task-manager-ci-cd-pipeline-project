@@ -1,4 +1,5 @@
-name: Cypress CI
+
+name: Cypress CI & GitHub Pages Deployment
 
 on:
   push:
@@ -8,6 +9,12 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   cypress:
@@ -33,3 +40,29 @@ jobs:
           install: false
           start: npm run dev -- --host 127.0.0.1
           wait-on: 'http://localhost:5173'
+
+      - name: Build frontend
+        run: npm run build
+        env:
+          VITE_BASE_PATH: ${{ github.event_name == 'push' && format('/{0}/', github.event.repository.name) || '/' }}
+
+      - name: Upload GitHub Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: cypress
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
