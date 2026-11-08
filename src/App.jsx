@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import './App.css'
 
@@ -30,7 +31,12 @@ function App() {
       )
     )
   }
-  
+
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id))
+  }
+
+  // Filter tasks according to the selected category
   const filteredTasks = tasks.filter((task) => {
     if (filter === 'active') {
       return !task.completed
@@ -43,40 +49,37 @@ function App() {
     return true
   })
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id))
-  }
-
   return (
     <main className="container">
       <h1>Mini Task Manager</h1>
       <p>Manage your daily tasks.</p>
 
+      {/* Task filters */}
+      <div className="filters" data-cy="task-filters">
+        <button
+          data-cy="filter-all"
+          onClick={() => setFilter('all')}
+        >
+          All
+        </button>
+
+        <button
+          data-cy="filter-active"
+          onClick={() => setFilter('active')}
+        >
+          Active
+        </button>
+
+        <button
+          data-cy="filter-completed"
+          onClick={() => setFilter('completed')}
+        >
+          Completed
+        </button>
+      </div>
+
+      {/* Task creation form */}
       <div className="task-form">
-        
-        <div className="filters" data-cy="task-filters">
-          <button
-            data-cy="filter-all"
-            onClick={() => setFilter('all')}
-          >
-            All
-          </button>
-
-          <button
-            data-cy="filter-active"
-            onClick={() => setFilter('active')}
-          >
-            Active
-          </button>
-
-          <button
-            data-cy="filter-completed"
-            onClick={() => setFilter('completed')}
-          >
-            Completed
-          </button>
-       </div>
-
         <input
           data-cy="task-input"
           type="text"
@@ -90,8 +93,9 @@ function App() {
         </button>
       </div>
 
+      {/* Task list */}
       <ul data-cy="task-list">
-        {tasks.map((task) => (
+        {filteredTasks.map((task) => (
           <li key={task.id} data-cy="task-item">
             <span
               data-cy="task-title"
@@ -111,14 +115,15 @@ function App() {
         ))}
       </ul>
 
+      {/* Empty states */}
+      {tasks.length === 0 && (
+        <p data-cy="empty-message">No tasks yet.</p>
+      )}
+
       {tasks.length > 0 && filteredTasks.length === 0 && (
         <p data-cy="no-filtered-tasks">
           No tasks match this filter.
         </p>
-      )}
-      
-      {tasks.length === 0 && (
-        <p data-cy="empty-message">No tasks yet.</p>
       )}
     </main>
   )
