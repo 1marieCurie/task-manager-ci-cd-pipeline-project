@@ -1,0 +1,12 @@
+
+node_modules
+dist
+.git
+.github
+cypress/videos
+cypress/screenshots
+coverage
+npm-debug.log
+.env
+.env.*
+!.env.example

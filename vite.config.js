@@ -5,4 +5,11 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   base: process.env.VITE_BASE_PATH || '/',
+  server: {
+    host: '0.0.0.0',
+    watch: {
+      usePolling: true,
+    },
+  },
+
 })
