@@ -45,7 +45,7 @@ function App() {
       try {
         const data = await getTasks()
         setTasks(data)
-      } catch (err) {
+      } catch  {
         setError('Unable to load your tasks. Please try again.')
       } finally {
         setLoading(false)
@@ -79,7 +79,7 @@ function App() {
       setNewTask('')
       setFilter('all')
       setSearch('')
-    } catch (err) {
+    } catch {
       setError('Unable to create your task. Please try again.')
     } finally {
       setAddingTask(false)
@@ -105,7 +105,7 @@ function App() {
           task.id === id ? updatedTask : task
         )
       )
-    } catch (err) {
+    } catch  {
       setError('Unable to update your task. Please try again.')
     }
   }
@@ -120,7 +120,7 @@ function App() {
       setTasks(currentTasks =>
         currentTasks.filter(task => task.id !== id)
       )
-    } catch (err) {
+    } catch {
       setError('Unable to delete your task. Please try again.')
     }
   }
